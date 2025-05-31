@@ -258,7 +258,7 @@ namespace POS_API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { status = 500, message = "Internal Server Error", error = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { status = 500, message = "Internal Server mega Error", error = ex.Message });
             }
         }
 

@@ -80,7 +80,7 @@ namespace POS_API.Services
             }
         }
 
-
+        //Getting id
         public async Task<Level2?> GetLevel2ById(int id)
         {
             string query = @"

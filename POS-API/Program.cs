@@ -31,10 +31,8 @@ app.UseExceptionHandler(errorApp =>
     errorApp.Run(async context =>
     {
         var error = context.Features.Get<IExceptionHandlerPathFeature>()?.Error;
-        Console.WriteLine("Unhandled exception: " + error?.Message);
-        Console.WriteLine(error?.StackTrace);
         context.Response.StatusCode = 500;
-        await context.Response.WriteAsync("Internal Server Error, Saad" + error?.Message);
+        await context.Response.WriteAsync($"Internal Server Error, {error?.Message} and {error?.StackTrace}");
     });
 });
 

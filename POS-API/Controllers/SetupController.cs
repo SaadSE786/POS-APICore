@@ -553,7 +553,12 @@ namespace POS_API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    status = 500,
+                    message = "An error occurred while fetching warehouses.",
+                    error = ex.Message 
+                });
             }
         }
 

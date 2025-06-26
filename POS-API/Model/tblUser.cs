@@ -25,6 +25,8 @@ namespace POS_API.Models
         public Nullable<int> intCompanyId { get; set; }
         public string varName { get; set; }
         public string varEmail { get; set; }
+        public string varAuthProvider { get; set; }
+        public string varExternalId { get; set; }
         public string varPassword { get; set; }
         public string varAddress { get; set; }
         public string varCnic { get; set; }

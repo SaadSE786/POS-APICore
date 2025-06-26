@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using POS_API.Model;
 using POS_API.Services;
 using System.Data;
+using POS_API.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +22,30 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<POSEntities>(option =>
      option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IDbConnection>(sp => new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            var jwtKey = builder.Configuration["Jwt:Key"];
+            if (string.IsNullOrEmpty(jwtKey))
+            {
+                throw new InvalidOperationException("Jwt:Key is not configured in the application settings.");
+            }
+
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtKey))
+            };
+        });
+
+//Custom Services
 builder.Services.AddScoped<SQLService>();
+builder.Services.AddScoped<IAuthService,AuthService>();
 
 var app = builder.Build();
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";

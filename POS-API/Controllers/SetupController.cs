@@ -771,6 +771,8 @@ namespace POS_API.Controllers
                         varPassword = u.varPassword,
                         varCnic = u.varCnic,
                         varContactNo = u.varContactNo,
+                        isAdmin = u.isAdmin,
+                        varAuthProvider = u.varAuthProvider,
                         intCompanyId = u.intCompanyId,
                         dtCreationDate = u.dtCreationDate,
                         dtUpdationDate = u.dtUpdationDate,
@@ -805,6 +807,8 @@ namespace POS_API.Controllers
                     varPassword = userEntity.varPassword,
                     varCnic = userEntity.varCnic,
                     varContactNo = userEntity.varContactNo,
+                    isAdmin = userEntity.isAdmin,
+                    varAuthProvider = userEntity.varAuthProvider,
                     intCompanyId = userEntity.intCompanyId,
                     dtCreationDate = userEntity.dtCreationDate,
                     dtUpdationDate = userEntity.dtUpdationDate,
@@ -833,10 +837,12 @@ namespace POS_API.Controllers
                     varName = user.varName,
                     varEmail = user.varEmail,
                     varAddress = user.varAddress,
-                    varPassword = user.varPassword,
+                    varAuthProvider = "Local",
+                    varPassword = BCrypt.Net.BCrypt.HashPassword(user.varPassword),
                     varCnic = user.varCnic,
                     varContactNo = user.varContactNo,
                     intCompanyId = user.intCompanyId,
+                    isAdmin = user.isAdmin,
                     dtCreationDate = DateTime.Now,
                     //intCreatedBy = user.intCreatedBy,
                     varPhoto = !string.IsNullOrEmpty(user.varPhoto) ? Convert.FromBase64String(user.varPhoto) : null
@@ -864,11 +870,16 @@ namespace POS_API.Controllers
                 tblUser.varName = user.varName;
                 tblUser.varEmail = user.varEmail;
                 tblUser.varAddress = user.varAddress;
-                tblUser.varPassword = user.varPassword;
+                tblUser.varAuthProvider = "Local";
+                if(!string.IsNullOrEmpty(user.varPassword) && tblUser.varPassword != user.varPassword)
+                {
+                    tblUser.varPassword = BCrypt.Net.BCrypt.HashPassword(user.varPassword);
+                }
                 tblUser.varCnic = user.varCnic;
                 tblUser.varContactNo = user.varContactNo;
                 tblUser.intCompanyId = user.intCompanyId;
                 tblUser.dtUpdationDate = DateTime.Now;
+                tblUser.isAdmin = user.isAdmin;
                 //tblUser.intUpdatedBy = user.intUpdatedBy;
 
                 if (!string.IsNullOrEmpty(user.varPhoto))

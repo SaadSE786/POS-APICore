@@ -14,6 +14,8 @@ namespace POS_API.BusinessObjects
         public string? varAddress { get; set; }
         public string? varCnic { get; set; }
         public string? varContactNo { get; set; }
+        public string? varAuthProvider { get; set; }
+        public string? varExternalId { get; set; }
         public Nullable<bool> isAdmin { get; set; }
         public string? varPhoto { get; set; }
         public DateTime? dtCreationDate { get; set; }

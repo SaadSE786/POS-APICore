@@ -46,6 +46,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //Custom Services
 builder.Services.AddScoped<SQLService>();
 builder.Services.AddScoped<IAuthService,AuthService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 var app = builder.Build();
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";

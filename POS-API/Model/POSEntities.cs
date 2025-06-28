@@ -26,6 +26,7 @@ namespace POS_API.Model
         public virtual DbSet<tblTransporter> tblTransporters { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<tblWarehouse> tblWarehouses { get; set; }
+        public virtual DbSet<tblVerificationCode> tblVerificationCode { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
